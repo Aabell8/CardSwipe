@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.os.Build;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -33,7 +32,6 @@ public class SwipeDeck extends FrameLayout {
     public float ROTATION_DEGREES;
     private float CARD_SPACING;
     public static int ANIMATION_DURATION = 200;
-    public boolean RENDER_ABOVE;
     public boolean SWIPE_ENABLED;
     private boolean mHasStableIds;
 
@@ -60,7 +58,6 @@ public class SwipeDeck extends FrameLayout {
         OPACITY_END = a.getFloat(R.styleable.CardSwipe_opacity_end, 0.33f);
         ROTATION_DEGREES = a.getFloat(R.styleable.CardSwipe_rotation_degrees, 15f);
         CARD_SPACING = a.getDimension(R.styleable.CardSwipe_card_spacing, 15f);
-        RENDER_ABOVE = a.getBoolean(R.styleable.CardSwipe_render_above, true);
         SWIPE_ENABLED = a.getBoolean(R.styleable.CardSwipe_swipe_enabled, true);
         previewLayoutId = a.getResourceId(R.styleable.CardSwipe_preview_layout, -1);
 
@@ -107,12 +104,6 @@ public class SwipeDeck extends FrameLayout {
         setClipToPadding(false);
         setClipChildren(false);
         this.setWillNotDraw(false);
-
-        //if render above is set make sure everything in this view renders above other views
-        //outside of it.
-        if (RENDER_ABOVE) {
-            ViewCompat.setTranslationZ(this, Float.MAX_VALUE);
-        }
     }
 
     @Override
@@ -481,7 +472,7 @@ public class SwipeDeck extends FrameLayout {
 
         @Override
         public void cardSwipedTop(View card) {
-            Log.d(TAG, "card swiped left");
+            Log.d(TAG, "card swiped top");
             if (!(deck.getFront().getCard() == card)) {
                 Log.e("SWIPE ERROR: ", "card on top of deck not equal to card swiped");
             }
@@ -493,7 +484,7 @@ public class SwipeDeck extends FrameLayout {
 
         @Override
         public void cardSwipedBottom(View card) {
-            Log.d(TAG, "card swiped left");
+            Log.d(TAG, "card swiped bottom");
             if (!(deck.getFront().getCard() == card)) {
                 Log.e("SWIPE ERROR: ", "card on top of deck not equal to card swiped");
             }

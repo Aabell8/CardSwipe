@@ -117,7 +117,7 @@ public class SwipeListener implements View.OnTouchListener {
                     return false;
                 }
 
-                Log.d("X:", "" + v.getX());
+//                Log.d("X:", "" + v.getX());
 
                 //calc rotation here
                 float posX = card.getX() + dx;
@@ -174,7 +174,7 @@ public class SwipeListener implements View.OnTouchListener {
         float y = card.getY() - initialY;
         double distance = Math.sqrt(x*x + y*y);
         double speed = distance / totalTime;
-        Log.e("TEST", "Speed:"+speed);
+//        Log.e("TEST", "Speed:"+speed);
 
 
         if (abs(x) > abs(y)){
