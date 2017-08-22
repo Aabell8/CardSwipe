@@ -36,6 +36,10 @@ public class SwipeListener implements View.OnTouchListener {
     private boolean deactivated;
     private View rightView;
     private View leftView;
+    private View topView;
+    private View bottomView;
+
+    private boolean horizontal;
 
     public SwipeListener(View card, final SwipeCallback callback, int initialX, int initialY, float rotation,
                          float opacityEnd, SwipeDeck parent) {
@@ -132,13 +136,29 @@ public class SwipeListener implements View.OnTouchListener {
                 float rotation = ROTATION_DEGREES * 2.f * distobjectX / parent.getWidth() * rotationFlip;
                 card.setRotation(rotation);
 
-                if (rightView != null && leftView != null) {
-                    //set alpha of left and right image
+                //set alpha values for icons
+                if (abs(posX) > abs(posY)){
+                    if (!horizontal){
+                        horizontal = true;
+                        topView.setAlpha(0);
+                        bottomView.setAlpha(0);
+                    }
+                }
+                else if (horizontal) {
+                    horizontal = false;
+                    leftView.setAlpha(0);
+                    rightView.setAlpha(0);
+                }
+                if (horizontal && rightView != null && leftView != null) {
                     float alpha = (((posX - parent.getPaddingLeft()) / (parent.getWidth() * OPACITY_END)));
-                    //float alpha = (((posX - paddingLeft) / parentWidth) * ALPHA_MAGNITUDE );
-                    //Log.i("alpha: ", Float.toString(alpha));
                     rightView.setAlpha(alpha);
                     leftView.setAlpha(-alpha);
+                }
+
+                if (!horizontal && topView != null && bottomView != null){
+                    float alpha = (((posY - parent.getPaddingTop()) / (parent.getHeight() * OPACITY_END)));
+                    topView.setAlpha(-alpha);
+                    bottomView.setAlpha(alpha);
                 }
 
                 break;
@@ -180,21 +200,16 @@ public class SwipeListener implements View.OnTouchListener {
         if (abs(x) > abs(y)){
 
 
-            if (x<0 && (speed > 1.3 || x > (parent.getWidth() / 4.f))) {
-
+            if (x<0 && (speed > 1.3 || abs(x) > (parent.getWidth() / 4.f))) {
                 animateOffScreenLeft(SwipeDeck.ANIMATION_DURATION, card.getY(), rotationFlip)
                         .setListener(new Animator.AnimatorListener() {
-
                             @Override
                             public void onAnimationStart(Animator animation) {
-
                             }
-
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 callback.cardOffScreen(card);
                             }
-
                             @Override
                             public void onAnimationCancel(Animator animation) {
                                 Log.d("SwipeListener", "Animation Cancelled");
@@ -209,25 +224,19 @@ public class SwipeListener implements View.OnTouchListener {
             } else if ((speed > 1.3 || x > (parent.getWidth() / 4.f))) {
                 animateOffScreenRight(SwipeDeck.ANIMATION_DURATION, card.getY(), rotationFlip)
                         .setListener(new Animator.AnimatorListener() {
-
                             @Override
                             public void onAnimationStart(Animator animation) {
 
                             }
-
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 callback.cardOffScreen(card);
                             }
-
                             @Override
                             public void onAnimationCancel(Animator animation) {
-
                             }
-
                             @Override
                             public void onAnimationRepeat(Animator animation) {
-
                             }
                         });
                 callback.cardSwipedRight(card);
@@ -237,25 +246,20 @@ public class SwipeListener implements View.OnTouchListener {
             }
         }
         else{
-            if (y<0 && (speed > 1.3 || y > (parent.getHeight() / 4.f))) {
+            if (y<0 && (speed > 1.3 || abs(y) > (parent.getHeight() / 4.f))) {
                 animateOffScreenTop(SwipeDeck.ANIMATION_DURATION)
                         .setListener(new Animator.AnimatorListener() {
-
                             @Override
                             public void onAnimationStart(Animator animation) {
-
                             }
-
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 callback.cardOffScreen(card);
                             }
-
                             @Override
                             public void onAnimationCancel(Animator animation) {
                                 Log.d("SwipeListener", "Animation Cancelled");
                             }
-
                             @Override
                             public void onAnimationRepeat(Animator animation) {
                             }
@@ -265,25 +269,19 @@ public class SwipeListener implements View.OnTouchListener {
             } else if ((speed > 1.3 || y > (parent.getHeight() / 4.f))) {
                 animateOffScreenBottom(SwipeDeck.ANIMATION_DURATION)
                         .setListener(new Animator.AnimatorListener() {
-
                             @Override
                             public void onAnimationStart(Animator animation) {
-
                             }
 
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 callback.cardOffScreen(card);
                             }
-
                             @Override
                             public void onAnimationCancel(Animator animation) {
-
                             }
-
                             @Override
                             public void onAnimationRepeat(Animator animation) {
-
                             }
                         });
                 callback.cardSwipedBottom(card);
@@ -321,6 +319,12 @@ public class SwipeListener implements View.OnTouchListener {
         }
         if (leftView != null) {
             leftView.setAlpha(0);
+        }
+        if (topView != null) {
+            topView.setAlpha(0);
+        }
+        if (bottomView != null) {
+            bottomView.setAlpha(0);
         }
 
         //todo: figure out why i have to set translationX to 0
@@ -387,6 +391,14 @@ public class SwipeListener implements View.OnTouchListener {
 
     public void setLeftView(View image) {
         this.leftView = image;
+    }
+
+    public void setTopView(View image){
+        this.topView = image;
+    }
+
+    public void setBottomView(View image){
+        this.bottomView = image;
     }
 
     //animate under cards by 0 - 100% of card spacing

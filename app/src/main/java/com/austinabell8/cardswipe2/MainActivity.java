@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
 
         cardStack.setLeftImage(R.id.left_image);
         cardStack.setRightImage(R.id.right_image);
+        cardStack.setTopImage(R.id.top_image);
+        cardStack.setBottomImage(R.id.bottom_image);
 
         //example of buttons triggering events on the deck
         ImageButton cancelButton = (ImageButton) findViewById(R.id.cancel_button);

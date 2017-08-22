@@ -44,6 +44,8 @@ public class SwipeDeck extends FrameLayout {
 
     private int leftImageResource;
     private int rightImageResource;
+    private int topImageResource;
+    private int bottomImageResource;
 
     private int adapterIndex = 0;
 
@@ -209,6 +211,12 @@ public class SwipeDeck extends FrameLayout {
             if (rightImageResource != 0) {
                 card.setRightImageResource(rightImageResource);
             }
+            if (topImageResource != 0) {
+                card.setTopImageResource(topImageResource);
+            }
+            if (bottomImageResource != 0) {
+                card.setBottomImageResource(bottomImageResource);
+            }
 
             card.setId(viewId);
 
@@ -245,6 +253,12 @@ public class SwipeDeck extends FrameLayout {
             }
             if (rightImageResource != 0) {
                 card.setRightImageResource(rightImageResource);
+            }
+            if (topImageResource != 0) {
+                card.setTopImageResource(topImageResource);
+            }
+            if (bottomImageResource != 0) {
+                card.setBottomImageResource(bottomImageResource);
             }
 
             card.setId(viewId);
@@ -410,6 +424,14 @@ public class SwipeDeck extends FrameLayout {
 
     public void setRightImage(int imageResource) {
         rightImageResource = imageResource;
+    }
+
+    public void setTopImage(int imageResource) {
+        topImageResource = imageResource;
+    }
+
+    public void setBottomImage(int imageResource) {
+        bottomImageResource = imageResource;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
