@@ -8,9 +8,9 @@
     card_view:cardCornerRadius="8dp"
     card_view:cardElevation="4dp"
     card_view:cardUseCompatPadding="true"
-    android:layout_margin="6dp"
+    android:layout_margin="0dp"
     android:gravity="center"
-    android:padding="0dp">
+    android:padding="5dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"

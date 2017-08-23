@@ -38,11 +38,12 @@ public class MainActivity extends AppCompatActivity {
         cardStack = (SwipeDeck) findViewById(R.id.swipe_deck);
         swipeFrameLayout = (SwipeFrameLayout) findViewById(R.id.swipeLayout);
 
-        mTestData.add(counter + "");
-        mTestData.add(counter + "");
-        mTestData.add(counter + "");
-        mTestData.add(counter + "");
-        mTestData.add(counter + "");
+        mTestData.add(counter++ + "");
+        mTestData.add(counter++ + "");
+        mTestData.add(counter++ + "");
+        mTestData.add(counter++ + "");
+        mTestData.add(counter++ + "");
+        mTestData.add(counter++ + "");
 
         adapter = new SwipeDeckAdapter(mTestData, this);
         if(cardStack != null){
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addNext(){
-        mTestData.add(counter + "");
+        mTestData.add(counter++ + "");
         adapter.notifyDataSetChanged();
     }
 

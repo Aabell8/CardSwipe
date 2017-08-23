@@ -195,11 +195,7 @@ public class SwipeListener implements View.OnTouchListener {
         double distance = Math.sqrt(x*x + y*y);
         double speed = distance / totalTime;
 //        Log.e("TEST", "Speed:"+speed);
-
-
         if (abs(x) > abs(y)){
-
-
             if (x<0 && (speed > 1.3 || abs(x) > (parent.getWidth() / 4.f))) {
                 animateOffScreenLeft(SwipeDeck.ANIMATION_DURATION, card.getY(), rotationFlip)
                         .setListener(new Animator.AnimatorListener() {
