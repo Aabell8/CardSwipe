@@ -196,8 +196,9 @@ public class SwipeListener implements View.OnTouchListener {
         double speed = distance / totalTime;
 //        Log.e("TEST", "Speed:"+speed);
         if (abs(x) > abs(y)){
+            float ratio = y/x;
             if (x<0 && (speed > 1.3 || abs(x) > (parent.getWidth() / 4.f))) {
-                animateOffScreenLeft(SwipeDeck.ANIMATION_DURATION, card.getY(), rotationFlip)
+                animateOffScreenLeft(SwipeDeck.ANIMATION_DURATION, ratio)
                         .setListener(new Animator.AnimatorListener() {
                             @Override
                             public void onAnimationStart(Animator animation) {
@@ -218,7 +219,7 @@ public class SwipeListener implements View.OnTouchListener {
                 callback.cardSwipedLeft(card);
                 this.deactivated = true;
             } else if ((speed > 1.3 || x > (parent.getWidth() / 4.f))) {
-                animateOffScreenRight(SwipeDeck.ANIMATION_DURATION, card.getY(), rotationFlip)
+                animateOffScreenRight(SwipeDeck.ANIMATION_DURATION, ratio)
                         .setListener(new Animator.AnimatorListener() {
                             @Override
                             public void onAnimationStart(Animator animation) {
@@ -242,8 +243,9 @@ public class SwipeListener implements View.OnTouchListener {
             }
         }
         else{
+            float ratio = x/y;
             if (y<0 && (speed > 1.3 || abs(y) > (parent.getHeight() / 4.f))) {
-                animateOffScreenTop(SwipeDeck.ANIMATION_DURATION)
+                animateOffScreenTop(SwipeDeck.ANIMATION_DURATION, ratio)
                         .setListener(new Animator.AnimatorListener() {
                             @Override
                             public void onAnimationStart(Animator animation) {
@@ -263,7 +265,7 @@ public class SwipeListener implements View.OnTouchListener {
                 callback.cardSwipedTop(card);
                 this.deactivated = true;
             } else if ((speed > 1.3 || y > (parent.getHeight() / 4.f))) {
-                animateOffScreenBottom(SwipeDeck.ANIMATION_DURATION)
+                animateOffScreenBottom(SwipeDeck.ANIMATION_DURATION, ratio)
                         .setListener(new Animator.AnimatorListener() {
                             @Override
                             public void onAnimationStart(Animator animation) {
@@ -333,52 +335,52 @@ public class SwipeListener implements View.OnTouchListener {
                 .translationX(0);
     }
 
-    private ViewPropertyAnimator animateOffScreenLeft(int duration, float y, int rotation) {
+    private ViewPropertyAnimator animateOffScreenLeft(int duration, float ratio) {
         return card.animate()
                 .setDuration(duration)
                 .x(-(parent.getWidth()))
-                .y(y)
+                .y(ratio*(-parent.getWidth()))
                 .rotation(rotationFlip*-30);
     }
 
-    private ViewPropertyAnimator animateOffScreenRight(int duration, float y, int rotation) {
+    private ViewPropertyAnimator animateOffScreenRight(int duration, float ratio) {
         return card.animate()
                 .setDuration(duration)
                 .x(parent.getWidth() * 2)
-                .y(y)
+                .y(ratio*(parent.getWidth()))
                 .rotation(rotationFlip*30);
     }
 
-    private ViewPropertyAnimator animateOffScreenTop(int duration) {
+    private ViewPropertyAnimator animateOffScreenTop(int duration, float ratio) {
         return card.animate()
                 .setDuration(duration)
-                .x(0)
+                .x(ratio*(-parent.getHeight()))
                 .y(-(parent.getHeight()))
                 .rotation(0);
     }
 
-    private ViewPropertyAnimator animateOffScreenBottom(int duration) {
+    private ViewPropertyAnimator animateOffScreenBottom(int duration, float ratio) {
         return card.animate()
                 .setDuration(duration)
-                .x(0)
+                .x(ratio*(parent.getHeight()))
                 .y(parent.getHeight()*2)
                 .rotation(0);
     }
 
     public void swipeCardLeft(int duration) {
-        animateOffScreenLeft(duration, initialY, rotationFlip);
+        animateOffScreenLeft(duration, 0);
     }
 
     public void swipeCardTop(int duration){
-        animateOffScreenTop(duration);
+        animateOffScreenTop(duration, 0);
     }
 
     public void swipeCardRight(int duration) {
-        animateOffScreenRight(duration, initialY, rotationFlip);
+        animateOffScreenRight(duration, 0);
     }
 
     public void swipeCardBottom(int duration){
-        animateOffScreenBottom(duration);
+        animateOffScreenBottom(duration, 0);
     }
 
     public void setRightView(View image) {
