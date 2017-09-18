@@ -156,7 +156,19 @@ public class MainActivity extends AppCompatActivity {
             }
 
             ImageView imageView = (ImageView) v.findViewById(R.id.picture_holder);
-            Picasso.with(context).load(R.drawable.galaxy).fit().centerCrop().into(imageView);
+            int resId;
+            if (position%3==0)
+            {
+                resId = R.drawable.green_solid;
+            }
+            else if (position%3==1)
+            {
+                resId = R.drawable.blue_solid;
+            }
+            else {
+                resId = R.drawable.yellow_solid;
+            }
+            Picasso.with(context).load(resId).fit().centerCrop().into(imageView);
             TextView textView = (TextView) v.findViewById(R.id.sample_text);
             String item = (String)getItem(position);
             textView.setText(item);
